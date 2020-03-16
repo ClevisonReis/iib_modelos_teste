@@ -25,8 +25,7 @@ CREATE COMPUTE MODULE geraArquivoJsonSub_Compute
 		SET outRef.est_Civil 		= inRef.estadoCivil;
 		SET outRef.formacao 		= inRef.grauDeInstrucao;
 		SET outRef.titulo 			= inRef.cursos.curso.nome;
-		SET outRef.nm_preferencia 	= inRef.nomePreferencia;	
-			
+		SET outRef.nm_preferencia 	= inRef.nomePreferencia;
 			
 --		SET outRef.vl_valor 		= 'teste@email';
 --		SET outRef.tp_contato 		= 'email';
