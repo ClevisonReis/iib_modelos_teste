@@ -1,0 +1,70 @@
+
+
+CREATE COMPUTE MODULE geraArquivoJsonSub_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+--		DECLARE inRef REFERENCE TO InputRoot.XMLNSC.EnviaPessoaFisicaRequisicao.pessoa;
+		
+--		CREATE LASTCHILD OF OutputRoot DOMAIN('JSON');
+--		DECLARE outRef REFERENCE TO OutputRoot.JSON.Data;
+		
+		DECLARE inRef REFERENCE TO InputRoot.XMLNSC.EnviaPessoaFisicaRequisicao.pessoa;
+		CREATE LASTCHILD OF OutputRoot DOMAIN('JSON'); 
+		CREATE FIELD OutputRoot.JSON.Data;
+		DECLARE outRef REFERENCE TO OutputRoot.JSON.Data;
+					
+		SET outRef.vl_valor 		= inRef.contatos.contato.valor;
+		SET outRef.tp_contato 		= inRef.contatos.contato.tipoContato;
+		SET outRef.nm_nome 			= inRef.nome;
+		SET outRef.sb_sobrenome 	= inRef.sobrenome;
+		SET outRef.dt_Nascimento 	= inRef.dataNascimento;
+		SET outRef.s_sexo 			= inRef.sexo;
+		SET outRef.est_Civil 		= inRef.estadoCivil;
+		SET outRef.formacao 		= inRef.grauDeInstrucao;
+		SET outRef.titulo 			= inRef.cursos.curso.nome;
+		SET outRef.nm_preferencia 	= inRef.nomePreferencia;	
+			
+			
+--		SET outRef.vl_valor 		= 'teste@email';
+--		SET outRef.tp_contato 		= 'email';
+--		SET outRef.nm_nome 			= 'teste';
+--		SET outRef.sb_sobrenome 	= 'outro tesre';
+--		SET outRef.dt_Nascimento 	= '2020-02-02';
+--		SET outRef.s_sexo 			= 'M';
+--		SET outRef.est_Civil 		= 'C';
+--		SET outRef.formacao 		= 'Pós';
+--		SET outRef.titulo 			= 'Master';
+--		SET outRef.nm_preferencia 	= 'management';
+		
+--		SET outRef.pessoa.contatos.contato.vl_valor = inRef.EnviaPessoaFisicaRequisicao.pessoa.contatos.contato.valor;
+--		SET outRef.pessoa.contatos.contato.tp_contato = inRef.EnviaPessoaFisicaRequisicao.pessoa.contatos.contato.tipoContato;
+--	
+--		SET outRef.pessoa.nm_nome = inRef.EnviaPessoaFisicaRequisicao.pessoa.nome;
+--		SET outRef.pessoa.sb_sobrenome = inRef.EnviaPessoaFisicaRequisicao.pessoa.sobrenome;
+--		SET outRef.pessoa.dt_Nascimento = inRef.EnviaPessoaFisicaRequisicao.pessoa.dataNascimento;
+--		SET outRef.pessoa.s_sexo = inRef.EnviaPessoaFisicaRequisicao.pessoa.sexo;
+--		SET outRef.pessoa.est_Civil = inRef.EnviaPessoaFisicaRequisicao.pessoa.estadoCivil;
+--		SET outRef.pessoa.formacao = inRef.EnviaPessoaFisicaRequisicao.pessoa.grauDeInstrucao;
+--		SET outRef.pessoa.cursos.cur_curso.titulo = inRef.EnviaPessoaFisicaRequisicao.pessoa.cursos.curso.nome;
+--		SET outRef.pessoa.nm_preferencia = inRef.EnviaPessoaFisicaRequisicao.pessoa.nomePreferencia;
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
